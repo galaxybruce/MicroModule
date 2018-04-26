@@ -5,7 +5,8 @@ apply from: '../micro_reference.gradle'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.2"
+
     defaultConfig {
         applicationId "com.ycdyng.module.micro"
         minSdkVersion 15
@@ -17,6 +18,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        // 这里必须要的，不然编译的时候有找不到源代码
+        // 参考美团https://tech.meituan.com/meituan_food_delivery_android_architecture_evolution.html
+        main {
+            def dirs = ['main', 'p_home', 'p_base', 'p_common']
+            dirs.each { dir ->
+                java.srcDir("$dir/src/main/java")
+                res.srcDir("$dir/src/main/res")
+            }
         }
     }
 }
